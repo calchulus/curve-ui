@@ -29,8 +29,7 @@ async function handle_add_liquidity() {
     var amounts = $("[id^=currency_]").toArray().map(x => $(x).val());
     for (let i = 0; i < N_COINS; i++)
         amounts[i] = BigInt(Math.floor(amounts[i] / c_rates[i])).toString(); // -> c-tokens
-    if ($('#inf-approval').prop('checked'))
-        await ensure_allowance();
+    await ensure_allowance();
     var deadline = Math.floor((new Date()).getTime() / 1000) + trade_timeout;
     await swap.methods.add_liquidity(amounts, deadline).send({
         'from': default_account,
